@@ -1,0 +1,13 @@
+---
+# Key Ad Metrices
+- name: "Impressions"
+  type: line
+  label: Timestamp
+- name: "Clicks"
+  type: line
+  label: Timestamp
+- name: "CTR%"
+  type: bar
+  label: Timestamp
+- name: "Impressions by Country"
+  type: pie

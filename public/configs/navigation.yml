@@ -1,0 +1,23 @@
+---
+# Dashboard controls
+- label: "Dashboard"
+  subLinks:
+    - label: "Overview"
+    - label: "Analytics"
+    - label: "Reports"
+- label: "Users"
+  subLinks:
+    - label: "All Users"
+    - label: "Active Users"
+    - label: "Inactive Users"
+- label: "Settings"
+  subLinks:
+    - label: "Profile"
+    - label: "Account"
+    - label: "Preferences"
+- label: "Support"
+  subLinks:
+    - label: "Tickets"
+- label: "Logout"
+# Navbar layout
+
