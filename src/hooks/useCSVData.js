@@ -1,18 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Papa from "papaparse";
-// import { useDispatch } from "react-redux";
-// import { storeData } from "../redux/csvDataSlice";
 
 export default function useCSVData(csvFilePath, delimiter = ",") {
   const [csvData, setCsvData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [csvErrors, setCsvErrors] = useState(null);
-  // const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchCsvData = async () => {
       try {
-        await Papa.parse(csvFilePath, {
+        Papa.parse(csvFilePath, {
           header: true,
           download: true,
           skipEmptyLines: true,
@@ -33,5 +30,7 @@ export default function useCSVData(csvFilePath, delimiter = ",") {
     fetchCsvData();
   }, [csvFilePath, delimiter]);
 
-  return { csvData, csvErrors, loading };
+  const memoizedData = useMemo(() => csvData, [csvData]);
+
+  return { csvData: memoizedData, csvErrors, loading };
 }

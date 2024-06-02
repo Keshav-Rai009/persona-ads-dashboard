@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 
 export default function DateRangeFilter({ onDateChange }) {
-  const [dateRange, setDateRange] = useState([new Date(), new Date()]);
+  const [dateRange, setDateRange] = useState(["Select dates..."]);
+  const initialDateRange = [new Date(), new Date()];
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
 
   const handleDateChange = (selectedDates) => {
@@ -23,7 +24,11 @@ export default function DateRangeFilter({ onDateChange }) {
         <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" />
         <input
           type="text"
-          value={`${dateRange[0].toLocaleDateString()} - ${dateRange[1].toLocaleDateString()}`}
+          value={
+            dateRange.length === 2
+              ? `${dateRange[0].toLocaleDateString()} - ${dateRange[1].toLocaleDateString()}`
+              : dateRange[0]
+          }
           readOnly
           className="border-none focus:outline-none w-full cursor-pointer"
         />
@@ -33,7 +38,7 @@ export default function DateRangeFilter({ onDateChange }) {
           <Calendar
             onChange={handleDateChange}
             selectRange={true}
-            value={dateRange}
+            value={initialDateRange}
             calendarType="iso8601"
           />
         </div>

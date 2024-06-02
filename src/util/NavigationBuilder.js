@@ -11,7 +11,6 @@ const navigationYaml = await fetchYaml("/configs/navigation.yml");
 
 export function buildDashboardNavigation() {
   const dashboardLinks = navigationYaml[0];
-  console.log(dashboardLinks);
   return dashboardLinks.map((link) => {
     return {
       href: link.label?.toLowerCase(),

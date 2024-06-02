@@ -5,7 +5,6 @@ import DashboardControls from "./DashboardControls";
 import getIcon from "../../util/IconFactory";
 
 const ComponentsLayout = ({ children }) => {
-  console.log(children);
   return (
     <div className="flex h-screen bg-gray-100">
       <DashboardControls navIcon={getIcon("NAVICON")} />

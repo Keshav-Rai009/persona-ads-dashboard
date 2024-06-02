@@ -9,18 +9,6 @@
 }
 
 @layer utilities {
-  /* .video-container {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  video {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  } */
-
   .landing-page {
     height: 100vh;
     width: 75vw;
