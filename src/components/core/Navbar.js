@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSearch,
-  faToggleOff,
-  faSun,
-  faMoon,
-  faUserCircle,
-  faBell,
-  faSliders,
-} from "@fortawesome/free-solid-svg-icons";
+import getIcon from "../../util/IconFactory";
 
 function Navbar() {
   const [darkMode, setDarkMode] = useState(false);
@@ -27,7 +19,7 @@ function Navbar() {
         <div className="flex items-center space-x-4">
           <div className="relative">
             <FontAwesomeIcon
-              icon={faSearch}
+              icon={getIcon("SEARCH")}
               size="lg"
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
             />
@@ -45,23 +37,23 @@ function Navbar() {
             className="text-gray-500 dark:text-gray-200 fa-lg"
           >
             {darkMode ? (
-              <FontAwesomeIcon icon={faSun} size="lg" />
+              <FontAwesomeIcon icon={getIcon("SUN")} size="lg" />
             ) : (
-              <FontAwesomeIcon icon={faMoon} size="lg" />
+              <FontAwesomeIcon icon={getIcon("MOON")} size="lg" />
             )}
           </button>
           <FontAwesomeIcon
-            icon={faBell}
+            icon={getIcon("BELL_ICON")}
             size="lg"
             className="text-gray-500 dark:text-gray-200 fa-xl"
           />
           <FontAwesomeIcon
-            icon={faSliders}
+            icon={getIcon("SLIDERS")}
             size="lg"
             className="text-gray-500 dark:text-gray-200 fa-xl"
           />
           <FontAwesomeIcon
-            icon={faUserCircle}
+            icon={getIcon("USER_ICON")}
             size="lg"
             className="text-gray-500 dark:text-gray-200 fa-xl"
           />

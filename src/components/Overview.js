@@ -4,11 +4,13 @@ import DateRangeFilter from "./DateRangeFilter";
 import { useDispatch, useSelector } from "react-redux";
 import Graph from "./analytics/Graph";
 import {
+  filterByAdvertiser,
   filterDataByAdvertiser,
   filterDataByDateRange,
   getMetricDatasets,
   transformToGraphdata,
 } from "../util/AnalyticsUtil";
+import { processCsvDataForPieChart } from "../util/CsvProcessor";
 
 function Overview() {
   const {
@@ -59,6 +61,11 @@ function Overview() {
         selectedAdvertiser,
         csvData: initialData,
       });
+      const filteredImpressionsData = filterByAdvertiser(
+        impressionsData,
+        selectedAdvertiser.value
+      );
+      setCountryImpressions(processCsvDataForPieChart(filteredImpressionsData));
     }
 
     if (dateRange) {
@@ -109,27 +116,20 @@ function Overview() {
       >
         {keyMetrices.map((metric, i) => {
           const { title, type, options } = metric;
-          if (type === "pie") {
-            return (
-              <Graph
-                key={i}
-                title={title}
-                data={countryImpressions}
-                type={type}
-              ></Graph>
-            );
-          }
-
+          const data =
+            type === "pie"
+              ? { ...countryImpressions }
+              : {
+                  ...filteredGraphData,
+                  datasets: [
+                    getMetricDatasets(filteredGraphData?.datasets, title),
+                  ],
+                };
           return (
             <Graph
               key={i}
               title={title}
-              data={{
-                ...filteredGraphData,
-                datasets: [
-                  getMetricDatasets(filteredGraphData?.datasets, title),
-                ],
-              }}
+              data={data}
               options={options}
               type={type}
             ></Graph>

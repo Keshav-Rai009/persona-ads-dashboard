@@ -42,20 +42,6 @@ export default function processCsvData(data, metricesConfig) {
 
   const advertisers = [...new Set(data.map((d) => d.Advertiser))];
   const labels = data.map((row) => row.Date);
-  // const impressions = data.map((row) => ({
-  //   advertiser: row.Advertiser,
-  //   value: parseInt(row.Impressions, 10),
-  // }));
-
-  // const clicks = data.map((row) => ({
-  //   advertiser: row.Advertiser,
-  //   value: parseInt(row.Clicks, 10),
-  // }));
-
-  // const ctr = data.map((row) => ({
-  //   advertiser: row.Advertiser,
-  //   value: row["CTR (in %)"],
-  // }));
 
   return {
     advertisers,

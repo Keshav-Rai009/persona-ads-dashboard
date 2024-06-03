@@ -3,9 +3,8 @@ import MetricInsights from "./MetricInsights";
 import Graph from "./Graph";
 import {
   extractMetricInsights,
+  filterByAdvertiser,
   filterCsvData,
-  filterDataByAdvertiser,
-  filterDataByDateRange,
   filterMetricDataByAdvertiser,
   filterMetricDataByDateRange,
   getMetricData,
@@ -54,7 +53,11 @@ const MetricAnalytics = ({
       setSelectedAdvertiser({ ...selectedAdvertiser });
       filteredMetricData = filterMetricDataByAdvertiser({
         selectedAdvertiser,
-        metricData: getMetricData(processedAdvertisersData, metricName),
+        metricData:
+          type === "pie"
+            ? impressionsData
+            : getMetricData(processedAdvertisersData, metricName),
+        type,
       });
     }
 
@@ -74,8 +77,11 @@ const MetricAnalytics = ({
         selectedDateRange,
       }),
       pieChartData: {
-        impressionsData,
-        impressionsByCountry: processedImpressionsData,
+        impressionsData: filterByAdvertiser(
+          impressionsData,
+          selectedAdvertiser.value
+        ),
+        impressionsByCountry: filteredMetricData,
       },
     });
     setCurrentInsights(metricInsights[title]);
@@ -100,6 +106,7 @@ const MetricAnalytics = ({
               },
               dateFilter: {
                 onChange: handleDateRangeChange,
+                visible: type !== "pie",
               },
             },
           }}

@@ -1,31 +1,16 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import navIcon from "../../assets/images/persona-icon.png";
-import {
-  faTachometerAlt,
-  faUsers,
-  faCog,
-  faSignOutAlt,
-  faChartBar,
-  faChevronDown,
-  faChevronUp,
-  faTimes,
-  faBars,
-  faArrowLeft,
-} from "@fortawesome/free-solid-svg-icons";
 
 import { Link, useNavigate } from "react-router-dom";
 import { buildDashboardNavigation } from "../../util/NavigationBuilder";
+import getIcon from "../../util/IconFactory";
 
-function DashboardControls({ links1 }) {
-  const [isOpen, setIsOpen] = useState(false);
+function DashboardControls() {
   const [openSubMenus, setOpenSubMenus] = useState([]);
 
   const links = buildDashboardNavigation();
   const navigate = useNavigate();
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
 
   const toggleSubMenu = (selectedSubMenu) => {
     setOpenSubMenus((prevOpenedSubMenus) =>
@@ -41,7 +26,6 @@ function DashboardControls({ links1 }) {
   const [isExpanded, setIsExpanded] = useState(true);
 
   const toggleSidebar = () => {
-    // setIsExpanded(!isExpanded);
     setIsExpanded(true);
   };
 
@@ -67,9 +51,7 @@ function DashboardControls({ links1 }) {
         <button
           onClick={toggleSidebar}
           className="text-white focus:outline-none"
-        >
-          {/* <FontAwesomeIcon icon={isExpanded ? faArrowLeft : faBars} /> */}
-        </button>
+        ></button>
       </div>
       {isExpanded && (
         <div>
@@ -90,7 +72,11 @@ function DashboardControls({ links1 }) {
                   {link.subLinks && (
                     <FontAwesomeIcon
                       className="mr-6 mt-1"
-                      icon={isSubMenuOpen(index) ? faChevronUp : faChevronDown}
+                      icon={
+                        isSubMenuOpen(index)
+                          ? getIcon("CHEVRON_UP")
+                          : getIcon("CHEVRON_DOWN")
+                      }
                     />
                   )}
                 </div>

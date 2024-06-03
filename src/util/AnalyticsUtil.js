@@ -1,4 +1,8 @@
-import { getMetricName, metricesMap } from "./CsvProcessor";
+import {
+  getMetricName,
+  metricesMap,
+  processCsvDataForPieChart,
+} from "./CsvProcessor";
 import { fetchYaml } from "./NavigationBuilder";
 
 const transformToGraphdata = (data) => {
@@ -7,14 +11,23 @@ const transformToGraphdata = (data) => {
         ...data,
         datasets: data.datasets.map((ds) => ({
           ...ds,
-          data: ds.data.map((dataPoint) => dataPoint.value),
+          data: ds.data?.map((dataPoint) => dataPoint.value),
         })),
       }
     : data;
 };
 
-const filterDataByAdvertiser = ({ selectedAdvertiser, csvData }) => {
+const filterDataByAdvertiser = ({
+  selectedAdvertiser,
+  csvData,
+  type = "graph",
+}) => {
   let filteredData = {};
+
+  if (type === "pie") {
+    filteredData = filterByAdvertiser(csvData, selectedAdvertiser.value);
+    return processCsvDataForPieChart(filteredData);
+  }
 
   if (selectedAdvertiser?.value === "All") {
     filteredData = csvData;
@@ -41,7 +54,7 @@ const filterDataByDateRange = ({ dateRange, graphData }) => {
       (date) => date.toISOString().split("T")[0]
     );
 
-    filteredData.datasets = filteredData.datasets.map((dataset) => ({
+    filteredData.datasets = filteredData.datasets?.map((dataset) => ({
       ...dataset,
       data: dataset.data.filter((_, index) => {
         const labelDate = graphData.labels[index];
@@ -56,11 +69,23 @@ const filterDataByDateRange = ({ dateRange, graphData }) => {
   return filteredData;
 };
 
+export const filterByAdvertiser = (metricData = [], advertiser = "") => {
+  return advertiser === "All"
+    ? [...metricData]
+    : metricData.filter((dataPoint) => dataPoint.Advertiser === advertiser);
+};
+
 export const filterMetricDataByAdvertiser = ({
   selectedAdvertiser,
   metricData,
+  type,
 }) => {
   let filteredData = {};
+
+  if (type === "pie") {
+    filteredData = filterByAdvertiser(metricData, selectedAdvertiser.value);
+    return processCsvDataForPieChart(filteredData);
+  }
 
   if (Array.isArray(metricData.datasets)) {
     metricData.datasets = metricData.datasets[0];
@@ -74,7 +99,7 @@ export const filterMetricDataByAdvertiser = ({
       datasets: [
         {
           ...metricData.datasets,
-          data: metricData.datasets.data.filter(
+          data: metricData.datasets?.data.filter(
             (dataPoint) => dataPoint.advertiser === selectedAdvertiser.value
           ),
         },
@@ -130,13 +155,17 @@ export const filterCsvData = ({
     );
   }
 
-  // if (selectedDateRange) {
-  //   filteredData = filteredData.filter(
-  //     (dataPoint) => dataPoint.Advertiser === selectedAdvertiser.value
-  //   );
-  // }
+  if (selectedDateRange?.length === 2) {
+    const [startDate, endDate] = selectedDateRange.map(
+      (date) => date.toISOString().split("T")[0]
+    );
+    filteredData = filteredData.filter(
+      (dataPoint) => dataPoint.Date >= startDate && dataPoint.Date <= endDate
+    );
+  }
   return filteredData;
 };
+
 // can be configured by yaml
 function getMetricOptions(xTitle, yTitle) {
   return {
@@ -192,14 +221,18 @@ export function isGraph(type = "") {
   return type === "line" || type === "bar";
 }
 const extractMetricInsights = ({
-  metricData,
-  pieChartData,
+  metricData = [],
+  pieChartData = [],
   keyMetrices = [],
 }) => {
-  if (!metricData || !keyMetrices.length) {
-    return null;
-  }
   let metricInsights = {};
+
+  keyMetrices.forEach((metric) => (metricInsights[metric.title] = {}));
+
+  if (!metricData?.length || !keyMetrices.length) {
+    return metricInsights;
+  }
+
   const CTR_THRESHOLD = 0.5;
   let topPerformers = [];
   metricData.forEach((dataPoint) => {
@@ -213,7 +246,6 @@ const extractMetricInsights = ({
 
   keyMetrices.forEach((metric) => {
     if (isGraph(metric.type)) {
-      // const metricName = dataPoint[metric] ? metric : metricesMap[metric];
       const totalSum = metricData.reduce(
         (acc, dataPoint) => acc + getMetricValue(dataPoint, metric.title),
         0
@@ -231,7 +263,6 @@ const extractMetricInsights = ({
           getMetricValue(dataPoint, metric.title) === maxMetricValue
       );
 
-      // Calculate trend (change in impressions and clicks over time)
       const sortedByDate = metricData
         .slice()
         .sort((a, b) => new Date(a.Date) - new Date(b.Date));
@@ -248,7 +279,6 @@ const extractMetricInsights = ({
         (item) => parseInt(item.Impressions, 10) === minMetricValue
       );
 
-      // Additional metrics can be computed here
       const growthRate =
         ((maxMetricValue - minMetricValue) / minMetricValue) * 100;
       const peakPeriod = maxMetricEntry?.Date;
@@ -272,6 +302,9 @@ const extractMetricInsights = ({
       };
     } else {
       const { impressionsData, impressionsByCountry } = pieChartData;
+      if (!Object.keys(impressionsByCountry)?.length) {
+        return metricInsights;
+      }
       const totalSum = impressionsData.reduce(
         (sum, entry) => sum + parseInt(entry.Impressions, 10),
         0

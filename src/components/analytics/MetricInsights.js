@@ -1,21 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChartLine,
-  faCalculator,
-  faStar,
-  faInfoCircle,
-  faArrowTrendUp,
-  faMaximize,
-  faSeedling,
-  faSquareRootVariable,
-  faRocket,
-  faBookAtlas,
-  faUmbrellaBeach,
-  faCloudSunRain,
-  faGlobe,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import getIcon from "../../util/IconFactory";
 
 const MetricInsights = ({ data, customisations = {}, title = "", type }) => {
   const metricName = title.toLocaleLowerCase();
@@ -24,71 +9,92 @@ const MetricInsights = ({ data, customisations = {}, title = "", type }) => {
     <div
       className="w-full bg-lime-200 p-4 shadow rounded-md flex flex-col items-center"
       style={{
-        height: "500px",
+        height: "100%",
         backgroundColor: customisations.style?.backgroundColor,
         opacity: 0.8,
       }}
     >
       <h4 className="text-2xl font-semibold mb-4 flex items-center mt-1">
-        <FontAwesomeIcon icon={faInfoCircle} className="mr-2 text-black" />
+        <FontAwesomeIcon
+          icon={getIcon("INFO_ICON")}
+          className="mr-2 text-black"
+        />
         KEY INSIGHTS
       </h4>
       {!isPieChart && (
         <ul className="my-4 ">
           <li className="flex items-center mb-2 ml-0.5">
-            <FontAwesomeIcon icon={faPlus} className="mr-2 text-white" />
+            <FontAwesomeIcon
+              icon={getIcon("CALCULATOR")}
+              className="mr-2 text-black"
+            />
             <span>
               Total {metricName}: {data.totalSum}
             </span>
           </li>
           <li className="flex items-center mb-2 ml-0.5">
             <FontAwesomeIcon
-              icon={faCalculator}
-              className="mr-3 text-yellow-500"
+              icon={getIcon("GAUGE")}
+              className="mr-2 text-yellow-500"
             />
             <span>
               Average {metricName}: {data.avgMetricValue}
             </span>
           </li>
           <li className="flex items-center mb-2 ">
-            <FontAwesomeIcon icon={faMaximize} className="mr-2  text-red-500" />
+            <FontAwesomeIcon
+              icon={getIcon("MAXIMISE")}
+              className="mr-2  text-red-500"
+            />
             <span className="ml-0.5">
               Max {metricName}: {data.maxMetricValue}
             </span>
           </li>
           <li className="flex items-center mb-2">
-            <FontAwesomeIcon icon={faStar} className="mr-2 text-green-700" />
-            <span>Top Performers: {data.topPerformers.join(", ")}</span>
+            <FontAwesomeIcon
+              icon={getIcon("STAR")}
+              className="mr-2 text-green-700"
+            />
+            <span>Top Performers: {data.topPerformers?.join(", ")}</span>
           </li>
           <li className="flex items-center mb-2">
-            <FontAwesomeIcon icon={faChartLine} className="mr-2 text-white" />
+            <FontAwesomeIcon
+              icon={getIcon("CHART_LINE")}
+              className="mr-2 text-white"
+            />
             <span>Growth Rate: {data.growthRate}%</span>
           </li>
           <li className="flex items-center mb-2">
             <FontAwesomeIcon
-              icon={faSquareRootVariable}
+              icon={getIcon("SQ_RT")}
               className="mr-2 text-yellow-500"
             />
             <span>Standard Deviation: {data.standardDeviation}</span>
           </li>
           <li className="flex items-center mb-2">
-            <FontAwesomeIcon icon={faRocket} className="mr-2 text-red-500" />
+            <FontAwesomeIcon
+              icon={getIcon("BOOSTER")}
+              className="mr-2 text-red-500"
+            />
             <span>Peak Period: {data.peakPeriod}</span>
           </li>
           <li className="flex items-center mb-2">
-            <FontAwesomeIcon icon={faGlobe} className="mr-2 text-green-700" />
+            <FontAwesomeIcon
+              icon={getIcon("GLOBE")}
+              className="mr-2 text-green-700"
+            />
             <span>Geographical Distribution: India</span>
           </li>
           <li className="flex items-start mb-2">
             <FontAwesomeIcon
-              icon={faCloudSunRain}
+              icon={getIcon("SEASON")}
               className="mr-2 mt-1.5 text-orange-400"
             />
             <span>Seasonal Trend: Seasonal trends data here...</span>
           </li>
           <li className="flex items-start mb-2">
             <FontAwesomeIcon
-              icon={faArrowTrendUp}
+              icon={getIcon("ARROW_UP")}
               className="mr-2 mt-1 text-black"
             />
             <span>Trends: {data.trend}</span>
@@ -98,37 +104,46 @@ const MetricInsights = ({ data, customisations = {}, title = "", type }) => {
       {isPieChart && (
         <ul className="my-4 ">
           <li className="flex items-start mb-2 ml-0.5">
-            <FontAwesomeIcon icon={faPlus} className="mr-2 mt-1 text-white" />
+            <FontAwesomeIcon
+              icon={getIcon("CALCULATOR")}
+              className="mr-2 mt-1 text-black"
+            />
             <span>
               Total {metricName}: {data.totalSum}
             </span>
           </li>
           <li className="flex items-center mb-2 ">
-            <FontAwesomeIcon icon={faMaximize} className="mr-2  text-red-500" />
+            <FontAwesomeIcon
+              icon={getIcon("MAXIMISE")}
+              className="mr-2  text-red-500"
+            />
             <span className="ml-0.5">
               Max {metricName}: {data.topPerformingCountry}
             </span>
           </li>
           <li className="flex items-center mb-2">
-            <FontAwesomeIcon icon={faChartLine} className="mr-2 text-white" />
+            <FontAwesomeIcon
+              icon={getIcon("CHART_LINE")}
+              className="mr-2 text-yellow-500"
+            />
             <span>Max Advertisers: {data.maxAdvertiserImpressions}</span>
           </li>
           <li className="flex items-center mb-2">
             <FontAwesomeIcon
-              icon={faSquareRootVariable}
-              className="mr-2 text-yellow-500"
+              icon={getIcon("FLAG")}
+              className="mr-2 text-white"
             />
             <span>No of countries: {data.numberOfCountries}</span>
           </li>
           <li className="flex items-start mb-2">
             <FontAwesomeIcon
-              icon={faStar}
+              icon={getIcon("STAR")}
               className="mr-2 text-green-700 mt-1"
             />
             <div className="flex flex-col">
               Top Contributors:
               <ul className="pl-6">
-                {data.topCountributors.map(
+                {data.topCountributors?.map(
                   ({ country, impressions, percentage, advertisers = [] }) => (
                     <li key={country} className="list-disc">
                       {country}: {impressions} impressions ({percentage}%)
@@ -149,7 +164,7 @@ const MetricInsights = ({ data, customisations = {}, title = "", type }) => {
           </li>
           <li className="flex items-start mb-2">
             <FontAwesomeIcon
-              icon={faArrowTrendUp}
+              icon={getIcon("ARROW_UP")}
               className="mr-2 mt-1 text-black"
             />
             <span>Trends: {data.trend}</span>

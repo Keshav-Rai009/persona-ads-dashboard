@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import LineGraph from "./LineGraph";
 import BarGraph from "./BarGraph";
 import PieChart from "./PieChart";
 import DateRangeFilter from "../DateRangeFilter";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAddressBook } from "@fortawesome/free-solid-svg-icons";
+import getIcon from "../../util/IconFactory";
 
 export default function Graph({
   title,
@@ -26,8 +26,12 @@ export default function Graph({
       value: selectedAdvertiser,
       onChange: handleAdvertiserChange,
       options: advertiserOptions,
+      visible: isAdvertiserFilterVisible = true,
     } = {},
-    dateFilter: { onChange: handleDateRangeChange } = {},
+    dateFilter: {
+      onChange: handleDateRangeChange,
+      visible: isDateFilterVisible = true,
+    } = {},
   } = filterControls;
 
   const onAdvertiserChange = (selectedAdvertiser) => {
@@ -39,14 +43,7 @@ export default function Graph({
   };
 
   const Graph = SUPPORTED_GRAPHS[type] || LineGraph;
-  const style = {
-    control: (base) => ({
-      ...base,
-      border: 0,
-      // This line disable the blue border
-      boxShadow: "none",
-    }),
-  };
+
   return (
     <div
       className={`bg-white rounded-lg shadow-md p-4 flex flex-col h-full`}
@@ -54,24 +51,39 @@ export default function Graph({
     >
       {customisations.showFilters ? (
         <div className="flex items-center justify-between">
-          <Select
-            value={selectedAdvertiser}
-            onChange={(selectedAdvertiser) =>
-              onAdvertiserChange(selectedAdvertiser)
-            }
-            options={advertiserOptions}
-            placeholder="Select an Advertiser..."
-          />
-          <DateRangeFilter
-            onDateChange={(dateRange) => onDateRangeChange(dateRange)}
-          ></DateRangeFilter>
+          {isAdvertiserFilterVisible && (
+            <Select
+              value={selectedAdvertiser}
+              onChange={(selectedAdvertiser) =>
+                onAdvertiserChange(selectedAdvertiser)
+              }
+              options={advertiserOptions}
+              placeholder="Select an Advertiser..."
+            />
+          )}
+          {isDateFilterVisible && (
+            <DateRangeFilter
+              onDateChange={(dateRange) => onDateRangeChange(dateRange)}
+            ></DateRangeFilter>
+          )}
         </div>
       ) : (
         <h2 className="text-2xl font-semibold mb-4 mx-auto">{title}</h2>
       )}
-      <div className="flex-grow">
-        <Graph data={data} options={options} />
-      </div>
+
+      {!Object.keys(data || {}).length ? (
+        <div className="flex items-center justify-center">
+          <FontAwesomeIcon
+            icon={getIcon("WARNING")}
+            className="text-red-500 mr-2 fa-2xl"
+          />
+          <div className="text-3xl text-red-500"> No data found! </div>
+        </div>
+      ) : (
+        <div className="flex-grow">
+          <Graph data={data} options={options}></Graph>
+        </div>
+      )}
     </div>
   );
 }
