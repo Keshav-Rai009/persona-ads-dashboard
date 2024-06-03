@@ -8,13 +8,11 @@ export const metricesMap = {
 export default function processCsvData(data, metricesConfig) {
   if (!data) return { labels: null, datasets: null };
 
-  console.log(metricesConfig, data);
-
   const csvHeaders = Object.keys(data[0]).map((key) => key.toLocaleLowerCase());
 
   let dataSetKeys = [];
   metricesConfig.forEach((metric) => {
-    if (isMetric(csvHeaders, metric)) {
+    if (isValidMetric(csvHeaders, metric)) {
       dataSetKeys.push(metric.title);
     }
   });
@@ -41,7 +39,10 @@ export default function processCsvData(data, metricesConfig) {
   });
 
   const advertisers = [...new Set(data.map((d) => d.Advertiser))];
-  const labels = data.map((row) => row.Date);
+  const labels = data.map((row) => ({
+    value: row.Date,
+    advertiser: row.Advertiser,
+  }));
 
   return {
     advertisers,
@@ -50,7 +51,7 @@ export default function processCsvData(data, metricesConfig) {
   };
 }
 
-function isMetric(csvHeaders, metric) {
+function isValidMetric(csvHeaders, metric) {
   return (
     csvHeaders.includes(metric.title?.toLocaleLowerCase()) ||
     metric.aliases.some((alias) =>
@@ -90,7 +91,6 @@ export function processCsvDataForPieChart(data = []) {
       countryImpressions[country] = impressions;
     }
   });
-  console.log(countryImpressions);
 
   return countryImpressions;
 }

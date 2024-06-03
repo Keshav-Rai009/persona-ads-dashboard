@@ -42,7 +42,7 @@ const PieChart = ({ data }) => {
   };
 
   return (
-    <div className="graph-container" style={{ height: "80%", marginTop: "6%" }}>
+    <div className="graph-container" style={{ height: "90%", marginTop: "5%" }}>
       <Pie data={chartData} options={options} />
     </div>
   );

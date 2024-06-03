@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Persona Ads Dashboard is a web application designed to analyze and visualize advertising metrics. It allows users to filter data, view graphical representations of metrics, and gain insights into advertising performance.
+The [**Persona Ads Dashboard**](https://persona-ads-dashboard.vercel.app/) is a react web application designed to analyze and visualize advertising metrics. It allows users to filter data, view graphical representations of metrics, and gain insights into advertising performance.
 
 ![Landing Page](./src/assets/images/landing-page.png)
 
@@ -136,18 +136,18 @@ The following external dependencies are used in this project:
 
   The app presents a unique config driven architecture where you can customise a lot by changing simple config files:
 
-  - ad-metrices.yml: This file contains all the key metrices of your ads which are highly configurable. You can edit this yaml file to modify your metrices or graph's apperance. You can also add new metrices or remove the existing ones' in case of future updates.
+  - [`ad-metrices.yml`](./public/configs/ad-metrices.yml): This file contains all the key metrices of your ads which are highly configurable. You can edit this yaml file to modify your metrices or graph's apperance. You can also add new metrices or remove the existing ones' in case of future updates.
 
   ```yml
   - name: <Title of your graph>
-  type: <Data Representation: line || bar || pie>
+  type: <Data Representation: <line | bar | pie>
   label: <The x cordinate of graph. e.g. Timestamp for metric vs daily data>
   visuals:
       <Graph apperance fields like color, tension etc>
   ...
   ```
 
-  - navigation.yml: The file contains all the navigation fields of your app. This can be very useful while adding permissions model to your graph. e.g. Based on the user role you can configure this yaml file, and decide whether to give him settings option (admin role)
+  - [`navigation.yml`](./public/configs/navigation.yml): The file contains all the navigation fields of your app. This can be extremely useful while using _**permissions model**_ in your application. e.g. Based on the user role you can configure this yaml file, and decide whether to give him settings option (admin role)
     or not.
 
     ```yml
@@ -159,6 +159,21 @@ The following external dependencies are used in this project:
     ...
     ```
 
+  - [`key-insights.yml`](./public/configs/key-insights.yml): It contains all the configurable statistical parameters and key insights based on input data.
+
+    ```yml
+      ---
+      <visual_type>:
+      - name: <parameter name>
+         key: <mapped key>
+         showMetricTitle: < true | false >
+         icon:
+            name: <icon name>
+            color: <icon color>
+      ...
+    ...
+    ```
+
 This architecture gives a high sense of _control_ and _flexibilty_ to the contributors for managing the upcoming features or modifying the existing ones' making our code **highly extensible.**
 
 ### Core Components
@@ -167,14 +182,14 @@ This architecture gives a high sense of _control_ and _flexibilty_ to the contri
 
 - Provides you an overall data visualisation for your key metrices.
 
-![Dashboard Overview](./src/assets/images/overview.png)
+  | Key Metric               | Representation |
+  | ------------------------ | -------------- |
+  | _Impressions_            | _Line Graph_   |
+  | _Clicks_                 | _Line Graph_   |
+  | _CTR_                    | _Bar Graph_    |
+  | _Impressions by country_ | _Pie Chat_     |
 
-| Key Metric               | Representation |
-| ------------------------ | -------------- |
-| _Impressions_            | _Line Graph_   |
-| _Clicks_                 | _Line Graph_   |
-| _CTR_                    | _Bar Graph_    |
-| _Impressions by country_ | _Pie Chat_     |
+![Dashboard Overview](./src/assets/images/overview.png)
 
 #### MetricAnalytics
 
@@ -216,9 +231,8 @@ filterDataByAdvertiser
 
 filterDataByDateRange
 
-<!-- prettier-ignore -->
-!!! note
-    - The filter does not apply to impressions per country data of the pie chart.
+> **Note**:  
+> The filter does not apply to impressions per country data of the pie chart.
 
 - Filters the data based on the selected date range.
 
@@ -229,7 +243,7 @@ Styling:
 The application majorly uses **Tailwind CSS** for styling along with some custom css classes written in `/index.css` file.
 
 Contribution Model:
-You can make use of configs defined under public folder to customise your data models and website apperance. Find more details here.
+You can make use of configs defined under public folder to customise your data models and website apperance. Find more details [here](#core-features).
 
 Adding New Graphs:
 
@@ -250,7 +264,8 @@ yarn build
 
 Deploy the contents of the build folder to your remote server. You can use services like Netlify, Vercel, or traditional hosting providers.
 
-**I've used _vercel_ for remote deployment of my application - _live demo_.**
+> **NOTE**:  
+> **I've used _vercel_ for remote deployment of my application - see [_live demo_](https://persona-ads-dashboard.vercel.app/).**
 
 ### Contribution
 

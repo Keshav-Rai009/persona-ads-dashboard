@@ -79,7 +79,7 @@ const MetricAnalytics = ({
       pieChartData: {
         impressionsData: filterByAdvertiser(
           impressionsData,
-          selectedAdvertiser.value
+          selectedAdvertiser?.value
         ),
         impressionsByCountry: filteredMetricData,
       },

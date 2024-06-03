@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-// provide RTK access to whole App
+// provide RTK access to the whole App
 root.render(
   <React.StrictMode>
     <Provider store={store}>

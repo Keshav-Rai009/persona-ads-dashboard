@@ -13,6 +13,7 @@ const transformToGraphdata = (data) => {
           ...ds,
           data: ds.data?.map((dataPoint) => dataPoint.value),
         })),
+        labels: data.labels.map((label) => label.value),
       }
     : data;
 };
@@ -22,10 +23,11 @@ const filterDataByAdvertiser = ({
   csvData,
   type = "graph",
 }) => {
+  const advertiser = selectedAdvertiser.value;
   let filteredData = {};
 
   if (type === "pie") {
-    filteredData = filterByAdvertiser(csvData, selectedAdvertiser.value);
+    filteredData = filterByAdvertiser(csvData, advertiser);
     return processCsvDataForPieChart(filteredData);
   }
 
@@ -37,9 +39,10 @@ const filterDataByAdvertiser = ({
       datasets: csvData.datasets.map((dataset) => ({
         ...dataset,
         data: dataset.data.filter(
-          (dataPoint) => dataPoint.advertiser === selectedAdvertiser.value
+          (dataPoint) => dataPoint.advertiser === advertiser
         ),
       })),
+      labels: csvData.labels.filter((label) => label.advertiser === advertiser),
     };
   }
 
@@ -81,9 +84,9 @@ export const filterMetricDataByAdvertiser = ({
   type,
 }) => {
   let filteredData = {};
-
+  const advertiser = selectedAdvertiser.value;
   if (type === "pie") {
-    filteredData = filterByAdvertiser(metricData, selectedAdvertiser.value);
+    filteredData = filterByAdvertiser(metricData, advertiser);
     return processCsvDataForPieChart(filteredData);
   }
 
@@ -100,10 +103,13 @@ export const filterMetricDataByAdvertiser = ({
         {
           ...metricData.datasets,
           data: metricData.datasets?.data.filter(
-            (dataPoint) => dataPoint.advertiser === selectedAdvertiser.value
+            (dataPoint) => dataPoint.advertiser === advertiser
           ),
         },
       ],
+      labels: metricData.labels.filter(
+        (label) => label.advertiser === advertiser
+      ),
     };
   }
 
@@ -289,8 +295,8 @@ const extractMetricInsights = ({
         ) / metricData.length
       );
       metricInsights[metric.title] = {
-        totalSum,
-        avgMetricValue: Math.floor(avgMetricValue),
+        totalSum: totalSum.toFixed(2),
+        avgMetricValue: avgMetricValue.toFixed(2),
         maxMetricValue,
         maxMetricEntry,
         minMetricEntry,
@@ -348,7 +354,7 @@ const extractMetricInsights = ({
       );
 
       metricInsights[metric.title] = {
-        totalSum,
+        totalSum: totalSum.toFixed(2),
         lowestPerformingCountry,
         topPerformingCountry,
         maxAdvertiserImpressions,
@@ -378,7 +384,27 @@ function describeTrend(metricTrend, metricName) {
 function getMetricValue(dataPoint, metricName) {
   const metricValue =
     dataPoint[metricName] || dataPoint[metricesMap[metricName]];
-  return parseInt(metricValue);
+  return metricName.includes("%")
+    ? parseFloat(metricValue)
+    : parseInt(metricValue);
+}
+
+export async function getKeyInsightsData() {
+  const keyInsightsData = await fetchYaml("/configs/key-insights.yml");
+  const keyInsights = keyInsightsData[0];
+  let insightsData = {};
+  Object.keys(keyInsights).forEach((key) => {
+    const insightData = keyInsights[key];
+    let data = insightData.map((insight) => ({
+      name: insight.name,
+      key: insight.key,
+      icon: insight.icon.name,
+      iconColor: insight.icon.color,
+      showMetricTitle: insight.showMetricTitle || false,
+    }));
+    insightsData[key] = data;
+  });
+  return insightsData;
 }
 
 export {

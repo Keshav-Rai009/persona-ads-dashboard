@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   csvData: {},
   keyMetrices: [],
+  keyInsights: [],
   graphData: {},
   initialData: {},
   advertisersData: [],
@@ -18,6 +19,9 @@ const csvDataSlice = createSlice({
   reducers: {
     setKeyMetrices(state, action) {
       state.keyMetrices = action.payload;
+    },
+    setKeyInsights(state, action) {
+      state.keyInsights = action.payload;
     },
     setGraphData(state, action) {
       state.graphData = action.payload;
@@ -64,6 +68,7 @@ const csvDataSlice = createSlice({
 
 export const {
   setKeyMetrices,
+  setKeyInsights,
   setAdvertisersData,
   setImpressionsData,
   setLoading,

@@ -29,7 +29,7 @@ function Overview() {
   const [initialData, setInitialData] = useState(null);
   const [filteredGraphData, setFilteredGraphData] = useState(null);
   const [selectedAdvertiser, setSelectedAdvertiser] = useState(null);
-  const [, setDateRange] = useState([new Date(), new Date()]);
+  const [dateRange, setDateRange] = useState(["Select dates..."]);
 
   const dispatch = useDispatch();
 
@@ -68,7 +68,7 @@ function Overview() {
       setCountryImpressions(processCsvDataForPieChart(filteredImpressionsData));
     }
 
-    if (dateRange) {
+    if (dateRange?.length === 2) {
       setDateRange([...dateRange]);
       filteredData = filterDataByDateRange({
         dateRange,
@@ -96,13 +96,13 @@ function Overview() {
   return loading ? (
     <h1 className="text-3xl"> Loading data. Please wait... </h1>
   ) : (
-    <div className="p-5 min-h-screen">
+    <div className="p-5 min-h-screen overflow-auto">
       <div className="flex pb-5 justify-between">
         <div style={{ width: "25%", maxWidth: "500px" }}>
           <Select
             value={selectedAdvertiser}
             onChange={(selectedAdvertiser) =>
-              filterData({ selectedAdvertiser })
+              filterData({ selectedAdvertiser, dateRange })
             }
             options={advertiserOptions}
             placeholder="Select an advertiser..."
@@ -110,10 +110,7 @@ function Overview() {
         </div>
         <DateRangeFilter onDateChange={handleDateChange}></DateRangeFilter>
       </div>
-      <div
-        className="grid grid-cols-2 gap-4"
-        style={{ height: "125vh", gridTemplateColumns: "repeat(2, 1fr)" }}
-      >
+      <div className="grid grid-cols-2 gap-4" style={{ height: "100%" }}>
         {keyMetrices.map((metric, i) => {
           const { title, type, options } = metric;
           const data =

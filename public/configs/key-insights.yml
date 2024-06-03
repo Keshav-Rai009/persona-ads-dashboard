@@ -1,0 +1,78 @@
+---
+graphs:
+  - name: Total
+    key: totalSum
+    showMetricTitle: true
+    icon:
+      name: CALCULATOR
+      color: black
+  - name: Average
+    key: avgMetricValue
+    showMetricTitle: true
+    icon:
+      name: GAUGE
+      color: yellow-500
+  - name: Max
+    key: maxMetricValue
+    showMetricTitle: true
+    icon:
+      name: MAXIMISE
+      color: red-500
+  - name: Top Performers
+    key: topPerformers
+    icon:
+      name: STAR
+      color: green-700
+  - name: Growth Rate
+    key: growthRate
+    icon:
+      name: CHART_LINE
+      color: white
+  - name: Peak Period
+    key: peakPeriod
+    icon:
+      name: BOOSTER
+      color: yellow-500
+  - name: Standard Deviation
+    key: standardDeviation
+    icon:
+      name: SQ_RT
+      color: red-500
+  - name: Geographical Distribution
+    key: geographicalDistribution
+    icon:
+      name: GLOBE
+      color: white
+  - name: Trends
+    key: trend
+    icon:
+      name: ARROW_UP
+      color: black
+
+charts:
+  - name: Total
+    key: totalSum
+    showMetricTitle: true
+    icon:
+      name: CALCULATOR
+      color: black
+  - name: Top Performing Country
+    key: topPerformingCountry
+    icon:
+      name: MAXIMISE
+      color: red-500
+  - name: Max Advertisers
+    key: maxAdvertiserImpressions
+    icon:
+      name: CHART_LINE
+      color: yellow-500
+  - name: No of Countries
+    key: numberOfCountries
+    icon:
+      name: FLAG
+      color: white
+  - name: Trends
+    key: trend
+    icon:
+      name: ARROW_UP
+      color: black

@@ -21,7 +21,7 @@ ChartJS.register(
 
 export default function BarGraph({ data, options }) {
   return (
-    <div className="graph-container" style={{ height: "80%" }}>
+    <div className="graph-container">
       <Bar data={data} options={options}></Bar>
     </div>
   );

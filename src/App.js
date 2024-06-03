@@ -9,6 +9,7 @@ import useCSVData from "./hooks/useCSVData";
 import {
   setAdvertisersData,
   setImpressionsData,
+  setKeyInsights,
   setKeyMetrices,
   setLoading,
   storeProcessedAdvertisersData,
@@ -18,7 +19,7 @@ import Advertiser_Data_CSV from "./assets/datasets/Advertiser_Data.csv";
 
 import Top10_Countries_CSV from "./assets/datasets/Top10_Countries.csv";
 import processCsvData, { processCsvDataForPieChart } from "./util/CsvProcessor";
-import { getKeyMetrices } from "./util/AnalyticsUtil";
+import { getKeyInsightsData, getKeyMetrices } from "./util/AnalyticsUtil";
 
 function App() {
   // INITIAL APP SETUP
@@ -42,6 +43,8 @@ function App() {
         advertisersData,
         keyMetrices
       );
+      const keyInsights = await getKeyInsightsData();
+      dispatch(setKeyInsights(keyInsights));
       const processedImpressionsData =
         processCsvDataForPieChart(impressionsData);
       dispatch(storeProcessedAdvertisersData(processedAdvertisersData));
