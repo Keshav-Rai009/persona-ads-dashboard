@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import getIcon from "../../util/IconFactory";
+import getIcon from "../util/IconFactory";
 
 function Navbar() {
   const [darkMode, setDarkMode] = useState(false);

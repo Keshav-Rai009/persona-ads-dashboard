@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import MetricAnalytics from "./analytics/MetricAnalytics";
+import MetricAnalytics from "./MetricAnalytics";
 import {
   extractMetricInsights,
   getMetricDatasets,
   transformToGraphdata,
-} from "../util/AnalyticsUtil";
+} from "../../util/AnalyticsUtil";
 import { useDispatch, useSelector } from "react-redux";
-import { storeMetricesAnalysisData } from "../redux/csvDataSlice";
+import { storeMetricesAnalysisData } from "../../redux/csvDataSlice";
 
 const AdAnalytics = () => {
   const dispatch = useDispatch();
@@ -23,19 +23,25 @@ const AdAnalytics = () => {
 
   useEffect(() => {
     if (!loading) {
-      setMetricInsights(
-        extractMetricInsights({
-          keyMetrices,
-          metricData: advertisersData,
-          pieChartData: {
-            impressionsData,
-            impressionsByCountry: processedImpressionsData,
-          },
-        })
-      );
-      dispatch(storeMetricesAnalysisData(metricInsights));
+      const insights = extractMetricInsights({
+        keyMetrices,
+        metricData: advertisersData,
+        pieChartData: {
+          impressionsData,
+          impressionsByCountry: processedImpressionsData,
+        },
+      });
+      setMetricInsights(insights);
+      dispatch(storeMetricesAnalysisData(insights));
     }
-  }, [loading, advertisersData, keyMetrices, dispatch]);
+  }, [
+    loading,
+    keyMetrices,
+    advertisersData,
+    impressionsData,
+    processedImpressionsData,
+    dispatch,
+  ]);
 
   const advertisers = processedAdvertisersData.advertisers;
 

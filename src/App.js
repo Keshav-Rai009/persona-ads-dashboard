@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
-import DashboardControls from "./components/core/DashboardControls";
-import Navbar from "./components/core/Navbar";
+import DashboardControls from "./components/DashboardControls";
+import Navbar from "./components/Navbar";
 import React, { useEffect } from "react";
 import AppRoutes from "./components/core/AppRoutes";
 import { useDispatch } from "react-redux";

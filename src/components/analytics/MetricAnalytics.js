@@ -8,6 +8,7 @@ import {
   filterMetricDataByAdvertiser,
   filterMetricDataByDateRange,
   getMetricData,
+  isGraph,
 } from "../../util/AnalyticsUtil";
 
 const MetricAnalytics = ({
@@ -22,7 +23,6 @@ const MetricAnalytics = ({
     advertisersData,
     impressionsData,
     processedAdvertisersData,
-    processedImpressionsData,
     advertiserOptions,
   } = initialData;
   const [selectedAdvertiser, setSelectedAdvertiser] = useState(null);
@@ -106,7 +106,7 @@ const MetricAnalytics = ({
               },
               dateFilter: {
                 onChange: handleDateRangeChange,
-                visible: type !== "pie",
+                visible: isGraph(type),
               },
             },
           }}

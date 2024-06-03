@@ -14,8 +14,9 @@
     width: 75vw;
   }
 
-  .navbar-width {
-    width: 81%;
+  .landing-page-video-container {
+    height: 35em;
+    border-radius: 2px;
   }
 
   .card {

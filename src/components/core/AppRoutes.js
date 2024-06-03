@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Overview from "../Overview";
-import LandingPage from "./LandingPage";
-import AdAnalytics from "../AdAnalytics";
+import LandingPage from "../LandingPage";
+import AdAnalytics from "../analytics/AdAnalytics";
 const AppRoutes = () => {
   return (
     <div className="mt-16 ml-64 p-4 overflow-y-auto">

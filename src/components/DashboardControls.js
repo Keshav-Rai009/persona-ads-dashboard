@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import navIcon from "../../assets/images/persona-icon.png";
+import navIcon from "../assets/images/persona-icon.png";
 
 import { Link, useNavigate } from "react-router-dom";
-import { buildDashboardNavigation } from "../../util/NavigationBuilder";
-import getIcon from "../../util/IconFactory";
+import { buildDashboardNavigation } from "../util/NavigationBuilder";
+import getIcon from "../util/IconFactory";
 
 function DashboardControls() {
   const [openSubMenus, setOpenSubMenus] = useState([]);
