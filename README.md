@@ -25,6 +25,7 @@ The [**Persona Ads Dashboard**](https://persona-ads-dashboard.vercel.app/) is a 
 
 - [Node.js](https://nodejs.org/en/download/package-manager/current)
 - [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) or [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable)
+- [Tailwind CSS](https://tailwindcss.com/docs/guides/create-react-app)
 
 ### Installation
 

@@ -11,7 +11,7 @@ graphs:
     showMetricTitle: true
     icon:
       name: GAUGE
-      color: white
+      color: yellow-500
   - name: Max
     key: maxMetricValue
     showMetricTitle: true
@@ -32,18 +32,24 @@ graphs:
     key: peakPeriod
     icon:
       name: BOOSTER
-      color: yellow-500
+      color: red-500
   - name: Standard Deviation
     key: standardDeviation
     icon:
       name: SQ_RT
-      color: red-500
+      color: orange-500
   - name: Geographical Distribution
     key: geographicalDistribution
     icon:
       name: GLOBE
-      color: white
+      color: green-700
     details: "Spread across asia pacific region."
+  - name: Seasonal Trends
+    key: seasonalTrends
+    icon:
+      name: SEASON
+      color: yellow-500
+    details: "Seasonal trends data here..."
   - name: Trends
     key: trend
     icon:
@@ -66,12 +72,12 @@ charts:
     key: maxAdvertiserImpressions
     icon:
       name: CHART_LINE
-      color: green-700
+      color: orange-500
   - name: No of Countries
     key: numberOfCountries
     icon:
       name: FLAG
-      color: white
+      color: green-700
   - name: Trends
     key: trend
     icon:
