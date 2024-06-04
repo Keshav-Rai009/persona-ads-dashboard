@@ -13,7 +13,7 @@ function Navbar() {
   return (
     <div
       className="bg-white dark:bg-gray-800 shadow-md fixed w-full
-     top-0 z-10 left-64"
+     top-0 z-10 left-64 max-[640px]:left-12 transition-all duration-300 ease-in-out"
     >
       <div className="flex justify-between items-center p-4 mr-6">
         <div className="flex items-center space-x-4">

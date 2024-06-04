@@ -6,6 +6,12 @@
 }
 
 @layer components {
+  .dashboard-visibility {
+    @apply max-[640px]:invisible visible transition-all duration-300 ease-in-out;
+  }
+  .dashboard-width {
+    @apply max-[640px]:w-12;
+  }
 }
 
 @layer utilities {
