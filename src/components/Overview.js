@@ -7,6 +7,7 @@ import {
   filterByAdvertiser,
   filterDataByAdvertiser,
   filterDataByDateRange,
+  getAdvertiserOptions,
   getMetricDatasets,
   transformToGraphdata,
 } from "../util/AnalyticsUtil";
@@ -21,6 +22,7 @@ function Overview() {
     processedImpressionsData,
     loading,
   } = useSelector((state) => state.csvData);
+  const dispatch = useDispatch();
 
   const [countryImpressions, setCountryImpressions] = useState([]);
   const [advertisers, setAdvertisers] = useState(
@@ -30,8 +32,6 @@ function Overview() {
   const [filteredGraphData, setFilteredGraphData] = useState(null);
   const [selectedAdvertiser, setSelectedAdvertiser] = useState(null);
   const [dateRange, setDateRange] = useState(["Select dates..."]);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const initiateSetup = async () => {
@@ -78,16 +78,7 @@ function Overview() {
 
     setFilteredGraphData({ ...filteredData });
   };
-
-  const advertiserOptions = [{ value: "All", label: "All" }];
-  advertiserOptions.push(
-    ...(advertisers
-      ?.map((advertiser) => ({
-        value: advertiser,
-        label: advertiser,
-      }))
-      .sort((a, b) => (a.value - b.value ? 1 : -1)) || [])
-  );
+  const advertiserOptions = getAdvertiserOptions(advertisers);
 
   const handleDateChange = (selectedDates) => {
     filterData({ selectedAdvertiser, dateRange: selectedDates });

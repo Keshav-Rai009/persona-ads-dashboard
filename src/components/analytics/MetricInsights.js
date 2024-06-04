@@ -29,6 +29,11 @@ const MetricInsights = ({ data, customisations = {}, title = "", type }) => {
             const title = insight.showMetricTitle
               ? insight.name + " " + metricName
               : insight.name;
+            const details =
+              insight.details ||
+              (Array.isArray(data[insight.key])
+                ? data[insight.key]?.join(", ")
+                : data[insight.key]);
             return (
               <li key={i} className="flex items-start mb-2">
                 <FontAwesomeIcon
@@ -36,10 +41,7 @@ const MetricInsights = ({ data, customisations = {}, title = "", type }) => {
                   className={`mr-2 mt-1 text-${insight.iconColor}`}
                 />
                 <span>
-                  {title}:{" "}
-                  {Array.isArray(data[insight.key])
-                    ? data[insight.key]?.join(", ")
-                    : data[insight.key]}
+                  {title}: {details}
                 </span>
               </li>
             );

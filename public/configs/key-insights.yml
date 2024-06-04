@@ -11,7 +11,7 @@ graphs:
     showMetricTitle: true
     icon:
       name: GAUGE
-      color: yellow-500
+      color: white
   - name: Max
     key: maxMetricValue
     showMetricTitle: true
@@ -43,6 +43,7 @@ graphs:
     icon:
       name: GLOBE
       color: white
+    details: "Spread across asia pacific region."
   - name: Trends
     key: trend
     icon:
@@ -65,7 +66,7 @@ charts:
     key: maxAdvertiserImpressions
     icon:
       name: CHART_LINE
-      color: yellow-500
+      color: green-700
   - name: No of Countries
     key: numberOfCountries
     icon:

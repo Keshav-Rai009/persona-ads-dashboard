@@ -8,6 +8,7 @@ import getIcon from "../util/IconFactory";
 
 function DashboardControls() {
   const [openSubMenus, setOpenSubMenus] = useState([]);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const links = buildDashboardNavigation();
   const navigate = useNavigate();
@@ -22,8 +23,6 @@ function DashboardControls() {
 
   const isSubMenuOpen = (selectedSubMenu) =>
     openSubMenus.includes(selectedSubMenu);
-
-  const [isExpanded, setIsExpanded] = useState(true);
 
   const toggleSidebar = () => {
     setIsExpanded(true);
@@ -85,7 +84,7 @@ function DashboardControls() {
                     {link.subLinks.map((subLink, subIndex) => (
                       <Link
                         key={subIndex}
-                        className="text-white hover:text-gray-300 p-2 nav-link"
+                        className="text-white hover:text-gray-300 p-2"
                         to={subLink.href}
                       >
                         {subLink.label}

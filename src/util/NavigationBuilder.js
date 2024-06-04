@@ -1,11 +1,5 @@
-import yaml from "js-yaml";
 import getIcon from "./IconFactory";
-
-export const fetchYaml = async (url) => {
-  const response = await fetch(url);
-  const text = await response.text();
-  return yaml.loadAll(text);
-};
+import { fetchYaml } from "./YamlProcessor";
 
 const navigationYaml = await fetchYaml("/configs/navigation.yml");
 

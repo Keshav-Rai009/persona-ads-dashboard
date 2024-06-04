@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MetricAnalytics from "./MetricAnalytics";
 import {
   extractMetricInsights,
+  getAdvertiserOptions,
   getMetricDatasets,
   transformToGraphdata,
 } from "../../util/AnalyticsUtil";
@@ -18,6 +19,7 @@ const AdAnalytics = () => {
     processedImpressionsData,
     loading,
   } = useSelector((state) => state.csvData);
+
   const [metricInsights, setMetricInsights] = useState(null);
   const graphData = transformToGraphdata(processedAdvertisersData);
 
@@ -43,16 +45,8 @@ const AdAnalytics = () => {
     dispatch,
   ]);
 
-  const advertisers = processedAdvertisersData.advertisers;
-
-  const advertiserOptions = [{ value: "All", label: "All" }];
-  advertiserOptions.push(
-    ...(advertisers
-      ?.map((advertiser) => ({
-        value: advertiser,
-        label: advertiser,
-      }))
-      .sort((a, b) => (a.value - b.value ? 1 : -1)) || [])
+  const advertiserOptions = getAdvertiserOptions(
+    processedAdvertisersData.advertisers
   );
 
   return (

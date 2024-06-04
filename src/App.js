@@ -19,7 +19,7 @@ import Advertiser_Data_CSV from "./assets/datasets/Advertiser_Data.csv";
 
 import Top10_Countries_CSV from "./assets/datasets/Top10_Countries.csv";
 import processCsvData, { processCsvDataForPieChart } from "./util/CsvProcessor";
-import { getKeyInsightsData, getKeyMetrices } from "./util/AnalyticsUtil";
+import { getKeyInsightsData, getKeyMetrices } from "./util/YamlProcessor";
 
 function App() {
   // INITIAL APP SETUP
