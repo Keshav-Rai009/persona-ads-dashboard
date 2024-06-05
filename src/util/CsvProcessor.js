@@ -94,3 +94,44 @@ export function processCsvDataForPieChart(data = []) {
 
   return countryImpressions;
 }
+
+export const processEngagementData = (csvData = []) => {
+  const COST_PER_AD = 0.1;
+  const engagementData = {};
+  csvData.forEach((row) => {
+    const impressions = parseInt(row.Impressions, 10);
+    let totalCost = impressions * COST_PER_AD;
+    const advertiser = row.Advertiser;
+    const clicks = parseInt(row.Clicks, 10);
+    const ctr = parseFloat(row["CTR (in %)"]);
+    const costPerAd = COST_PER_AD;
+    const startDate = row.Date;
+
+    if (advertiser in engagementData) {
+      engagementData[advertiser].advertiser = advertiser;
+      engagementData[advertiser].impressions += impressions;
+      engagementData[advertiser].clicks += clicks;
+      engagementData[advertiser].ctr += ctr;
+      engagementData[advertiser].costPerAd += costPerAd;
+      engagementData[advertiser].totalCost += totalCost;
+    } else {
+      engagementData[advertiser] = {
+        impressions,
+        clicks,
+        ctr,
+        costPerAd,
+        totalCost,
+        startDate,
+        state: "Active",
+      };
+    }
+  });
+
+  Object.keys(engagementData).forEach((key) => {
+    engagementData[key].ctr = engagementData[key].ctr.toFixed(2);
+    engagementData[key].costPerAd = engagementData[key].costPerAd.toFixed(2);
+    engagementData[key].totalCost = engagementData[key].totalCost.toFixed(2);
+  });
+
+  return Object.values(engagementData);
+};

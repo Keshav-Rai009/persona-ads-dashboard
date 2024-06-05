@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MetricInsights from "./MetricInsights";
-import Graph from "./Graph";
+import Graph from "./visualizers/Graph";
 import {
   extractMetricInsights,
   filterByAdvertiser,

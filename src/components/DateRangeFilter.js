@@ -4,7 +4,7 @@ import "react-calendar/dist/Calendar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import getIcon from "../util/IconFactory";
 
-export default function DateRangeFilter({ onDateChange }) {
+export default function DateRangeFilter({ onDateChange, customisations = {} }) {
   const [dateRange, setDateRange] = useState(["Select dates..."]);
   const initialDateRange = [new Date(), new Date()];
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
@@ -19,6 +19,7 @@ export default function DateRangeFilter({ onDateChange }) {
     <div className="relative">
       <div
         className="bg-white p-2 border rounded-md cursor-pointer flex items-center text-gray-500 shadow-sm"
+        style={customisations.style}
         onClick={() => setIsCalendarVisible(!isCalendarVisible)}
       >
         <FontAwesomeIcon icon={getIcon("CALENDER")} className="mr-2" />

@@ -1,11 +1,11 @@
 import React from "react";
-import LineGraph from "./LineGraph";
-import BarGraph from "./BarGraph";
-import PieChart from "./PieChart";
-import DateRangeFilter from "../DateRangeFilter";
-import Select from "react-select";
+import LineGraph from "../visualizers/LineGraph";
+import BarGraph from "../visualizers/BarGraph";
+import PieChart from "../visualizers/PieChart";
+import DateRangeFilter from "../../DateRangeFilter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import getIcon from "../../util/IconFactory";
+import getIcon from "../../../util/IconFactory";
+import SelectFilter from "../../SelectFilter";
 
 export default function Graph({
   title,
@@ -52,18 +52,27 @@ export default function Graph({
       {customisations.showFilters ? (
         <div className="flex items-center justify-between">
           {isAdvertiserFilterVisible && (
-            <Select
+            <SelectFilter
               value={selectedAdvertiser}
               onChange={(selectedAdvertiser) =>
                 onAdvertiserChange(selectedAdvertiser)
               }
               options={advertiserOptions}
-              placeholder="Select an Advertiser..."
-            />
+              customisations={{
+                style: { border: "1px solid lightgray" },
+              }}
+            ></SelectFilter>
           )}
           {isDateFilterVisible && (
             <DateRangeFilter
               onDateChange={(dateRange) => onDateRangeChange(dateRange)}
+              customisations={{
+                style: {
+                  border: "1px solid lightgray",
+                  height: "2.4em",
+                  width: "13em",
+                },
+              }}
             ></DateRangeFilter>
           )}
         </div>

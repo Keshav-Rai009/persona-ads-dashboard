@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
 import DateRangeFilter from "./DateRangeFilter";
 import { useDispatch, useSelector } from "react-redux";
-import Graph from "./analytics/Graph";
+import Graph from "./analytics/visualizers/Graph";
 import {
   filterByAdvertiser,
   filterDataByAdvertiser,
@@ -12,6 +11,7 @@ import {
   transformToGraphdata,
 } from "../util/AnalyticsUtil";
 import { processCsvDataForPieChart } from "../util/CsvProcessor";
+import SelectFilter from "./SelectFilter";
 
 function Overview() {
   const {
@@ -84,21 +84,23 @@ function Overview() {
     filterData({ selectedAdvertiser, dateRange: selectedDates });
   };
 
+  const handleAdvertiserChange = (selectedAdvertiser) => {
+    filterData({ selectedAdvertiser, dateRange });
+  };
+
   return loading ? (
     <h1 className="text-3xl"> Loading data. Please wait... </h1>
   ) : (
     <div className="p-5 min-h-screen overflow-auto">
       <div className="flex pb-5 justify-between">
-        <div style={{ width: "25%", maxWidth: "500px" }}>
-          <Select
-            value={selectedAdvertiser}
-            onChange={(selectedAdvertiser) =>
-              filterData({ selectedAdvertiser, dateRange })
-            }
-            options={advertiserOptions}
-            placeholder="Select an advertiser..."
-          />
-        </div>
+        <SelectFilter
+          value={selectedAdvertiser}
+          onChange={handleAdvertiserChange}
+          options={advertiserOptions}
+          customisations={{
+            style: { width: "25%" },
+          }}
+        ></SelectFilter>
         <DateRangeFilter onDateChange={handleDateChange}></DateRangeFilter>
       </div>
       <div className="grid grid-cols-2 gap-4" style={{ height: "100%" }}>

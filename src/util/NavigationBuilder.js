@@ -13,6 +13,8 @@ export function buildDashboardNavigation() {
       subLinks: link.subLinks?.map((subLink) => {
         return { href: subLink.label?.toLowerCase(), label: subLink.label };
       }),
+      // show link - can be configured via permissions model stored in the backend based on the user role.
+      // e.g. A link/tab which is shown only to an admin
     };
   });
 }

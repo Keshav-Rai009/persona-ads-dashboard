@@ -6,6 +6,7 @@ export const fetchYaml = async (url) => {
   return yaml.loadAll(text);
 };
 
+// Adapters
 export async function getKeyInsightsData() {
   const keyInsightsData = await fetchYaml("/configs/key-insights.yml");
   const keyInsights = keyInsightsData[0];

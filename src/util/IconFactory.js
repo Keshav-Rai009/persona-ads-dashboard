@@ -29,6 +29,7 @@ import {
   faPlus,
   faFlag,
   faGauge,
+  faFilePdf,
 } from "@fortawesome/free-solid-svg-icons";
 
 const ICONS_REGISTRY = Object.freeze({
@@ -61,6 +62,7 @@ const ICONS_REGISTRY = Object.freeze({
   GAUGE: faGauge,
   PLUS: faPlus,
   FLAG: faFlag,
+  EXPORT_PDF: faFilePdf,
   DEFAULT: faFaceSmile,
 });
 

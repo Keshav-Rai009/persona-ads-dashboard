@@ -32,7 +32,7 @@ graphs:
     key: peakPeriod
     icon:
       name: BOOSTER
-      color: red-500
+      color: black
   - name: Standard Deviation
     key: standardDeviation
     icon:
