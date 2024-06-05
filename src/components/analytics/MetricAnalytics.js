@@ -24,8 +24,13 @@ const MetricAnalytics = ({
     impressionsData,
     processedAdvertisersData,
     advertiserOptions,
+    setSelectFilter,
   } = initialData;
-  const [selectedAdvertiser, setSelectedAdvertiser] = useState(null);
+  const [selectedAdvertiser, setSelectedAdvertiser] = useState({
+    value: localStorage.getItem("selectedAdvertiser"),
+    label: localStorage.getItem("selectedAdvertiser"),
+  });
+  // const [selectFilterState, setSelectFilterState] = useState();
   const [selectedDateRange, setSelectedDateRange] = useState([
     "Select dates...",
   ]);
@@ -33,12 +38,22 @@ const MetricAnalytics = ({
   const [currentInsights, setCurrentInsights] = useState(insightsData);
 
   useEffect(() => {
+    setSelectedAdvertiser({
+      value: localStorage.getItem("selectedAdvertiser"),
+      label: localStorage.getItem("selectedAdvertiser"),
+    });
     setFilteredData(data);
     setCurrentInsights(insightsData);
   }, [data, insightsData]);
 
   const handleAdvertiserChange = (selectedAdvertiser, metricName) => {
+    // if (
+    //   localStorage.getItem("selectedAdvertiser") !== selectedAdvertiser?.value
+    // ) {
+    localStorage.setItem("selectedAdvertiser", selectedAdvertiser.value);
+    //}
     setSelectedAdvertiser(selectedAdvertiser);
+
     filterData(selectedAdvertiser, selectedDateRange, metricName);
   };
 

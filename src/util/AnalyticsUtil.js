@@ -71,6 +71,33 @@ const filterDataByDateRange = ({ dateRange, graphData }) => {
   return filteredData;
 };
 
+function mergeByAdvertisers(metricData) {
+  let merged = [];
+
+  for (let i = 0; i < metricData.datasets?.data.length; i++) {
+    for (let j = i + 1; j < metricData.datasets?.data.length; j++) {
+      if (
+        metricData.datasets?.data[i].date === metricData.datasets?.data[j].date
+      ) {
+        merged.push(
+          metricData.datasets?.data[i].value +
+            metricData.datasets?.data[j].value
+        );
+      }
+    }
+  }
+
+  const lebelSet = [...new Set(metricData.labels.map((md) => md.value))];
+
+  let mergedData = {
+    ...metricData,
+    datasets: [{ ...metricData.datasets, data: merged }],
+    labels: lebelSet,
+  };
+
+  return mergedData;
+}
+
 export const filterByAdvertiser = (metricData = [], advertiser = "") => {
   return advertiser === "All"
     ? [...metricData]
@@ -80,6 +107,7 @@ export const filterByAdvertiser = (metricData = [], advertiser = "") => {
 export const filterMetricDataByAdvertiser = ({
   selectedAdvertiser,
   metricData,
+  csvData,
   type,
 }) => {
   let filteredData = {};
@@ -94,7 +122,8 @@ export const filterMetricDataByAdvertiser = ({
   }
 
   if (selectedAdvertiser?.value === "All") {
-    filteredData = { ...metricData, datasets: [metricData.datasets] };
+    return mergeByAdvertisers(metricData);
+    // filteredData = { ...metricData, datasets: [metricData.datasets] };
   } else {
     filteredData = {
       ...metricData,

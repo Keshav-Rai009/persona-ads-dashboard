@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import SelectFilter from "../components/SelectFilter";
 const initialState = {
   csvData: {},
   keyMetrices: [],
@@ -11,6 +12,7 @@ const initialState = {
   processedImpressionsData: [],
   metricesAnalysisData: {},
   loading: true,
+  selectFilterVal: "",
 };
 
 const csvDataSlice = createSlice({
@@ -63,6 +65,9 @@ const csvDataSlice = createSlice({
       state.metricesAnalysisData = action.payload;
       state.loading = false;
     },
+    setSelectFilter(state, action) {
+      state.selectFilterVal = action.payload;
+    },
   },
 });
 
@@ -79,6 +84,7 @@ export const {
   setGraphData,
   setInitialData,
   storeMetricesAnalysisData,
+  setSelectFilter,
 } = csvDataSlice.actions;
 
 export default csvDataSlice.reducer;
