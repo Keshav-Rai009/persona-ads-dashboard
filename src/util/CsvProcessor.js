@@ -31,6 +31,7 @@ export default function processCsvData(data, metricesConfig) {
               dataPoint[getMetricName(key)] || dataPoint[metricesMap[key]],
               10
             ),
+        date: dataPoint.Date,
       })),
     });
     Object.keys(metricVisuals).forEach((visual) => {

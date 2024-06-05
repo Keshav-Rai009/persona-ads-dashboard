@@ -7,7 +7,7 @@ const initialState = {
   initialData: {},
   advertisersData: [],
   impressionsData: [],
-  processedAdvertisersData: [],
+  processedAdvertisersData: {},
   processedImpressionsData: [],
   metricesAnalysisData: {},
   loading: true,

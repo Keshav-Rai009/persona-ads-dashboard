@@ -17,6 +17,26 @@ const transformToGraphdata = (data) => {
     : data;
 };
 
+export function mergeAllMetricesByAdvertisers(csvData) {
+  let mergedData = {};
+  if (!Object.keys(csvData).length) {
+    return mergedData;
+  }
+  csvData.datasets.forEach((dataset) => {
+    mergedData[dataset.label] = mergeAdvertisorsData({
+      ...csvData,
+      datasets: dataset,
+    });
+  });
+  return {
+    ...csvData,
+    datasets: csvData.datasets.map(
+      (dataset) => mergedData[dataset.label]?.datasets?.[0]
+    ),
+    labels: mergedData["CLICKS"]?.labels || csvData.labels,
+  };
+}
+
 const filterDataByAdvertiser = ({
   selectedAdvertiser,
   csvData,
@@ -26,12 +46,12 @@ const filterDataByAdvertiser = ({
   let filteredData = {};
 
   if (type === "pie") {
-    filteredData = filterByAdvertiser(csvData, advertiser);
+    filteredData = filterPieChartByAdvertiser(csvData, advertiser);
     return processCsvDataForPieChart(filteredData);
   }
 
   if (selectedAdvertiser?.value === "All") {
-    filteredData = csvData;
+    return mergeAllMetricesByAdvertisers(csvData);
   } else {
     filteredData = {
       ...csvData,
@@ -71,11 +91,43 @@ const filterDataByDateRange = ({ dateRange, graphData }) => {
   return filteredData;
 };
 
-export const filterByAdvertiser = (metricData = [], advertiser = "") => {
+export const filterPieChartByAdvertiser = (
+  metricData = [],
+  advertiser = ""
+) => {
   return advertiser === "All"
     ? [...metricData]
     : metricData.filter((dataPoint) => dataPoint.Advertiser === advertiser);
 };
+
+export function mergeAdvertisorsData(metricData) {
+  if (Array.isArray(metricData.datasets)) {
+    metricData.datasets = metricData.datasets[0];
+  }
+
+  const mergedByDates = {};
+  metricData.datasets?.data.forEach((dataPoint) => {
+    const { value, date } = dataPoint;
+    if (!mergedByDates[date]) {
+      mergedByDates[date] = 0;
+    }
+    mergedByDates[date] += parseFloat(value, 10);
+  });
+
+  const mergedData = Object.keys(mergedByDates).map((date) => ({
+    advertiser: "All",
+    value: mergedByDates[date],
+    date: date,
+  }));
+
+  return {
+    ...metricData,
+    datasets: [
+      { ...metricData.datasets, data: mergedData.map((data) => data.value) },
+    ],
+    labels: [...new Set(metricData.labels.map((md) => md.value || md))],
+  };
+}
 
 export const filterMetricDataByAdvertiser = ({
   selectedAdvertiser,
@@ -85,7 +137,7 @@ export const filterMetricDataByAdvertiser = ({
   let filteredData = {};
   const advertiser = selectedAdvertiser.value;
   if (type === "pie") {
-    filteredData = filterByAdvertiser(metricData, advertiser);
+    filteredData = filterPieChartByAdvertiser(metricData, advertiser);
     return processCsvDataForPieChart(filteredData);
   }
 
@@ -94,7 +146,7 @@ export const filterMetricDataByAdvertiser = ({
   }
 
   if (selectedAdvertiser?.value === "All") {
-    filteredData = { ...metricData, datasets: [metricData.datasets] };
+    return mergeAdvertisorsData(metricData);
   } else {
     filteredData = {
       ...metricData,
@@ -351,8 +403,13 @@ function getMetricValue(dataPoint, metricName) {
     : parseInt(metricValue);
 }
 
+export const initialAdvertiserOption = {
+  value: "All",
+  label: "All Advertisers",
+};
+
 export function getAdvertiserOptions(advertisers = []) {
-  const advertiserOptions = [{ value: "All", label: "All" }];
+  const advertiserOptions = [initialAdvertiserOption];
   advertiserOptions.push(
     ...(advertisers
       .map((advertiser) => ({

@@ -3,12 +3,14 @@ import DateRangeFilter from "./DateRangeFilter";
 import { useDispatch, useSelector } from "react-redux";
 import Graph from "./analytics/visualizers/Graph";
 import {
-  filterByAdvertiser,
+  filterPieChartByAdvertiser,
   filterDataByAdvertiser,
   filterDataByDateRange,
   getAdvertiserOptions,
   getMetricDatasets,
   transformToGraphdata,
+  initialAdvertiserOption,
+  mergeAllMetricesByAdvertisers,
 } from "../util/AnalyticsUtil";
 import { processCsvDataForPieChart } from "../util/CsvProcessor";
 import SelectFilter from "./SelectFilter";
@@ -30,16 +32,20 @@ function Overview() {
   );
   const [initialData, setInitialData] = useState(null);
   const [filteredGraphData, setFilteredGraphData] = useState(null);
-  const [selectedAdvertiser, setSelectedAdvertiser] = useState(null);
+  const [selectedAdvertiser, setSelectedAdvertiser] = useState(
+    initialAdvertiserOption
+  );
   const [dateRange, setDateRange] = useState(["Select dates..."]);
 
   useEffect(() => {
     const initiateSetup = async () => {
       setAdvertisers(processedAdvertisersData.advertisers);
+      const initialGraphData = mergeAllMetricesByAdvertisers(
+        processedAdvertisersData
+      );
       setCountryImpressions(processedImpressionsData);
-      const graphData = transformToGraphdata(processedAdvertisersData);
       setInitialData(processedAdvertisersData);
-      setFilteredGraphData(graphData);
+      setFilteredGraphData(initialGraphData);
     };
     if (advertisersData?.length && impressionsData?.length) {
       initiateSetup();
@@ -61,7 +67,7 @@ function Overview() {
         selectedAdvertiser,
         csvData: initialData,
       });
-      const filteredImpressionsData = filterByAdvertiser(
+      const filteredImpressionsData = filterPieChartByAdvertiser(
         impressionsData,
         selectedAdvertiser.value
       );

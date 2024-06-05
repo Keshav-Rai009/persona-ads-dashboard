@@ -3,12 +3,14 @@ import MetricInsights from "./MetricInsights";
 import Graph from "./visualizers/Graph";
 import {
   extractMetricInsights,
-  filterByAdvertiser,
+  filterPieChartByAdvertiser,
   filterCsvData,
   filterMetricDataByAdvertiser,
   filterMetricDataByDateRange,
   getMetricData,
   isGraph,
+  initialAdvertiserOption,
+  mergeAdvertisorsData,
 } from "../../util/AnalyticsUtil";
 
 const MetricAnalytics = ({
@@ -25,7 +27,9 @@ const MetricAnalytics = ({
     processedAdvertisersData,
     advertiserOptions,
   } = initialData;
-  const [selectedAdvertiser, setSelectedAdvertiser] = useState(null);
+  const [selectedAdvertiser, setSelectedAdvertiser] = useState(
+    initialAdvertiserOption
+  );
   const [selectedDateRange, setSelectedDateRange] = useState([
     "Select dates...",
   ]);
@@ -33,9 +37,13 @@ const MetricAnalytics = ({
   const [currentInsights, setCurrentInsights] = useState(insightsData);
 
   useEffect(() => {
-    setFilteredData(data);
+    setFilteredData(
+      type === "pie"
+        ? data
+        : mergeAdvertisorsData(getMetricData(processedAdvertisersData, title))
+    );
     setCurrentInsights(insightsData);
-  }, [data, insightsData]);
+  }, [data, insightsData, title, type, processedAdvertisersData]);
 
   const handleAdvertiserChange = (selectedAdvertiser, metricName) => {
     setSelectedAdvertiser(selectedAdvertiser);
@@ -77,7 +85,7 @@ const MetricAnalytics = ({
         selectedDateRange,
       }),
       pieChartData: {
-        impressionsData: filterByAdvertiser(
+        impressionsData: filterPieChartByAdvertiser(
           impressionsData,
           selectedAdvertiser?.value
         ),
