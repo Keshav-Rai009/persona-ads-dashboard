@@ -21,7 +21,7 @@ const EngagementReport = () => {
     "Clicks",
     "Peak CTR (%)",
     "Start Date",
-    "State",
+    "Status",
     "Cost Per Ad ($)",
     "Total Cost ($)",
   ];
@@ -33,7 +33,7 @@ const EngagementReport = () => {
     "clicks",
     "maxCtr",
     "startDate",
-    "state",
+    "status",
     "costPerAd",
     "totalCost",
   ];

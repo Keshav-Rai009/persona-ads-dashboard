@@ -116,7 +116,6 @@ export const processEngagementData = (csvData = []) => {
         maxCtr,
         engagementData[advertiser].maxCtr
       );
-      engagementData[advertiser].costPerAd += costPerAd;
       engagementData[advertiser].totalCost += totalCost;
     } else {
       engagementData[advertiser] = {
@@ -126,7 +125,7 @@ export const processEngagementData = (csvData = []) => {
         costPerAd,
         totalCost,
         startDate,
-        state: "Active",
+        status: "Active",
       };
     }
   });
