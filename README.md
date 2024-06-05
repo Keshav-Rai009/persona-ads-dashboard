@@ -109,24 +109,22 @@ persona-ads-dashboard/
 
 The following external dependencies are used in this project:
 
-```json
-"dependencies": {
-    "tailwindcss": "^3.4.3", - For styling
-    "@fortawesome/fontawesome-svg-core": "^6.5.2", - To display app icons.
-    "@fortawesome/free-solid-svg-icons": "^6.5.2", - Solid style icons for FontAwesome.
-    "@fortawesome/react-fontawesome": "^0.2.2", - FontAwesome React component integration.
-    "@reduxjs/toolkit": "^2.2.5", - For state management
-    "chart.js": "^4.4.3", - To render data visuals like graphs and charts.
-    "js-yaml": "^4.1.0", - To parse yaml files.
-    "papaparse": "^5.4.1", - To parse given CSV files.
-    "jspdf": "^2.5.1", - To save reports in pdf format
-    "react-calendar": "^5.0.0", - To display calender for date range.
-    "react-chartjs-2": "^5.2.0", - React wrapper for Chart.js.
-    "react-redux": "^9.1.2", - Official React bindings for Redux.
-    "react-router-dom": "^6.23.1", - For navigation.
-    "react-select": "^5.8.0", - For advertiser filter.
-    "redux": "^5.0.1", - Predictable state container for JavaScript apps.
-}
+```
+    "tailwindcss": "^3.4.3", // For styling
+    "@fortawesome/fontawesome-svg-core": "^6.5.2", // To display app icons.
+    "@fortawesome/free-solid-svg-icons": "^6.5.2", // Solid style icons for FontAwesome.
+    "@fortawesome/react-fontawesome": "^0.2.2", // FontAwesome React component integration.
+    "@reduxjs/toolkit": "^2.2.5", // For state management
+    "chart.js": "^4.4.3", // To render data visuals like graphs and charts.
+    "js-yaml": "^4.1.0", // To parse yaml files.
+    "papaparse": "^5.4.1", // To parse given CSV files.
+    "jspdf": "^2.5.1", // To save reports in pdf format
+    "react-calendar": "^5.0.0", // To display calender for date range.
+    "react-chartjs-2": "^5.2.0", // React wrapper for Chart.js.
+    "react-redux": "^9.1.2", // Official React bindings for Redux.
+    "react-router-dom": "^6.23.1", // For navigation.
+    "react-select": "^5.8.0", // For advertiser filter.
+    "redux": "^5.0.1", // Predictable state container for JavaScript apps.
 ```
 
 ### Core Features
