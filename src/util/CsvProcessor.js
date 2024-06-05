@@ -104,7 +104,7 @@ export const processEngagementData = (csvData = []) => {
     let totalCost = impressions * COST_PER_AD;
     const advertiser = row.Advertiser;
     const clicks = parseInt(row.Clicks, 10);
-    const ctr = parseFloat(row["CTR (in %)"]);
+    const maxCtr = parseFloat(row["CTR (in %)"]);
     const costPerAd = COST_PER_AD;
     const startDate = row.Date;
 
@@ -112,14 +112,17 @@ export const processEngagementData = (csvData = []) => {
       engagementData[advertiser].advertiser = advertiser;
       engagementData[advertiser].impressions += impressions;
       engagementData[advertiser].clicks += clicks;
-      engagementData[advertiser].ctr += ctr;
+      engagementData[advertiser].maxCtr = Math.max(
+        maxCtr,
+        engagementData[advertiser].maxCtr
+      );
       engagementData[advertiser].costPerAd += costPerAd;
       engagementData[advertiser].totalCost += totalCost;
     } else {
       engagementData[advertiser] = {
         impressions,
         clicks,
-        ctr,
+        maxCtr,
         costPerAd,
         totalCost,
         startDate,
@@ -129,7 +132,7 @@ export const processEngagementData = (csvData = []) => {
   });
 
   Object.keys(engagementData).forEach((key) => {
-    engagementData[key].ctr = engagementData[key].ctr.toFixed(2);
+    engagementData[key].maxCtr = engagementData[key].maxCtr.toFixed(2);
     engagementData[key].costPerAd = engagementData[key].costPerAd.toFixed(2);
     engagementData[key].totalCost = engagementData[key].totalCost.toFixed(2);
   });
